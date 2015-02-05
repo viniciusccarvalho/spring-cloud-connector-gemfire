@@ -4,7 +4,7 @@
 
 This is an extension to the [spring service connectors](https://github.com/spring-cloud/spring-cloud-connectors/tree/master/spring-cloud-spring-service-connector) that provides a [gemfire client cache](http://gemfire.docs.pivotal.io/latest/userguide/index.html#basic_config/the_cache/managing_a_client_cache.html) as a managed spring bean once you bound a gemfire service to it.
 
-## Using
+## How to use it
 
 The service expects a gemfire service with the following format:
 
@@ -33,4 +33,24 @@ The service expects a gemfire service with the following format:
 
 ```
 
+Now you can consume the client cache just by using @ServiceScan annotation:
 
+```java
+
+@Configuration
+@ServiceScan
+@EnableGemfireRepositories
+@EnableAutoConfiguration
+public class Application {
+
+@Autowired 
+ClientCache gemfireCache;
+
+}
+```
+
+Use spring-data-gemfire is optional
+
+## Customizing
+
+TODO - Need a better way to configure certain cache parameters.
