@@ -1,5 +1,9 @@
 package org.springframework.cloud.gemfire;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 
 import com.gemstone.gemfire.cache.GemFireCache;
@@ -14,7 +18,9 @@ public class GemfireClienCacheConnectorCreatorTest {
 	public void testcacheCreation() throws Exception {
 		ClientCacheFactory factory = mock(ClientCacheFactory.class);
 		ClientCache cache = mock(ClientCache.class);
-		GemfireLocatorServiceInfo info = new GemfireLocatorServiceInfo("gemfire", "localhost[1234]");
+		Map<String,Object> credentials = new HashMap<>();
+		credentials.put("locators", Collections.singletonList("localhost[1234]"));
+		GemfireLocatorServiceInfo info = new GemfireLocatorServiceInfo("gemfire", credentials);
 		when(factory.create()).thenReturn(cache);
 		GemfireClientCacheConnectorCreator creator = new GemfireClientCacheConnectorCreator(factory);
 		ClientCache cretedCache = creator.create(info, null);

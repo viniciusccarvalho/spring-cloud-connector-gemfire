@@ -26,7 +26,15 @@ public class GemfireClientCacheConnectorCreator extends AbstractServiceConnector
 		for(URI locator: serviceInfo.getLocators()){
 			factory.addPoolLocator(locator.getHost(), locator.getPort());
 		}
+		if(serviceInfo.getUsername() != null){
+			factory.set("security-client-auth-init", "org.springframework.cloud.gemfire.UserAuthInitialize.create");
+			factory.set("security-username",serviceInfo.getUsername());
+		}
+		if(serviceInfo.getPassword() != null){
+			factory.set("security-password",serviceInfo.getPassword());
+		}
 		return factory.create();
+		 
 	}
 
 }

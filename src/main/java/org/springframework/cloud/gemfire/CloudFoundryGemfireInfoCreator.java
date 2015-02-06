@@ -20,8 +20,7 @@ public class CloudFoundryGemfireInfoCreator extends CloudFoundryServiceInfoCreat
 	public GemfireLocatorServiceInfo createServiceInfo(Map<String, Object> serviceData) {
 		String id = (String) serviceData.get("name");
 		Map<String,Object> credentials = (Map<String, Object>) serviceData.get("credentials");
-		List<String>locators = (List<String>) credentials.get("locators");
-		return new GemfireLocatorServiceInfo(id, locators.toArray(new String[]{}));
+		return new GemfireLocatorServiceInfo(id, credentials);
 	}
 
 }

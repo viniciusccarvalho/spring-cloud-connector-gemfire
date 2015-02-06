@@ -2,6 +2,8 @@ package org.springframework.cloud.gemfire;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,12 +15,15 @@ public class GemfireLocatorServiceInfo extends BaseServiceInfo {
 	
 	final Pattern p = Pattern.compile("(.*)\\[(\\d*)\\]");
 	private URI[] locators;
+	private Map<String,Object> credentials;
 	
-	public GemfireLocatorServiceInfo(String id, String... addresses ) {
+	public GemfireLocatorServiceInfo(String id, Map<String,Object> credentials ) {
 		super(id);
-		this.locators = new URI[addresses.length];
-		for(int i=0;i<addresses.length;i++){
-			locators[i] = parseLocators(addresses[i]);
+		this.credentials = credentials;
+		List<String> locatorList = (List<String>) credentials.get("locators");
+		this.locators = new URI[locatorList.size()];
+		for(int i=0;i<locatorList.size();i++){
+			locators[i] = parseLocators(locatorList.get(i));
 		}
 	}
 	
@@ -45,5 +50,12 @@ public class GemfireLocatorServiceInfo extends BaseServiceInfo {
 		return locators;
 	}
 	
+	public String getUsername(){
+		return credentials.get("username") == null ? null : String.valueOf(credentials.get("username"));
+	}
+	
+	public String getPassword(){
+		return credentials.get("password") == null ? null : String.valueOf(credentials.get("password"));
+	}
 
 }
